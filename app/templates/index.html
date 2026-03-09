@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Sumo Dashboards{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for d in dashboards %}
+    <a href="/dashboards/{{ d.name }}" class="block bg-gray-900 rounded-lg border border-gray-800 overflow-hidden hover:border-gray-600 transition-colors">
+        {% if d.latest %}
+        <img src="{{ d.latest.url }}" alt="{{ d.display_name }}" class="w-full" loading="lazy">
+        {% else %}
+        <div class="h-48 flex items-center justify-center text-gray-500">No snapshots</div>
+        {% endif %}
+        <div class="p-3 flex items-center justify-between">
+            <span class="font-medium text-sm">{{ d.display_name }}</span>
+            {% if d.stale %}
+            <span class="text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full">Stale</span>
+            {% else %}
+            <span class="text-xs text-gray-500">
+                {% if d.latest %}{{ d.latest.timestamp.strftime('%H:%M') }}{% endif %}
+            </span>
+            {% endif %}
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}
