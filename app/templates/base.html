@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sumo Dashboards{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen">
+    <nav class="bg-gray-900 border-b border-gray-800 px-4 py-3 flex items-center justify-between">
+        <a href="/" class="text-lg font-semibold text-white">Sumo Dashboards</a>
+        {% if user %}
+        <span class="text-sm text-gray-400">{{ user.email }}</span>
+        {% endif %}
+    </nav>
+    <main class="max-w-7xl mx-auto px-4 py-6">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
