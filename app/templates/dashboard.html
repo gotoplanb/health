@@ -8,29 +8,24 @@
     <h1 class="text-xl font-semibold mt-1">{{ display_name }}</h1>
 </div>
 
-<div id="main-image" class="mb-6">
-    {% if latest %}
-    <img src="{{ latest.url }}" alt="{{ display_name }}" class="w-full rounded-lg shadow">
-    <p class="text-xs text-gray-500 mt-2">{{ latest.timestamp.strftime('%Y-%m-%d %H:%M:%S UTC') }}</p>
-    {% else %}
-    <div class="h-64 flex items-center justify-center text-gray-500 bg-gray-900 rounded-lg">No snapshots available</div>
-    {% endif %}
-</div>
-
-{% if snapshots|length > 1 %}
-<h2 class="text-sm font-medium text-gray-400 mb-2">History (last 3 hours)</h2>
-<div class="flex gap-2 overflow-x-auto pb-2">
-    {% for snap in snapshots %}
-    <button
-        class="flex-shrink-0 w-32 rounded border border-gray-700 overflow-hidden hover:border-gray-500 transition-colors"
-        hx-get="/dashboards/{{ name }}/snapshot/{{ snap.timestamp.strftime('%Y-%m-%dT%H-%M-%SZ') }}"
-        hx-target="#main-image"
-        hx-swap="innerHTML"
-    >
-        <img src="{{ snap.url }}" alt="{{ snap.timestamp }}" class="w-full" loading="lazy">
-        <span class="block text-[10px] text-gray-500 px-1 py-0.5">{{ snap.timestamp.strftime('%H:%M') }}</span>
-    </button>
+{% if snapshots %}
+<div class="space-y-3">
+    {% for item in snapshots %}
+    <a href="/dashboards/{{ name }}/snapshot/{{ item.timestamp_slug }}"
+       class="block bg-gray-900 rounded-lg border border-gray-800 overflow-hidden hover:border-gray-600 transition-colors">
+        <img src="{{ item.snapshot.url }}" alt="{{ display_name }}" class="w-full" loading="lazy">
+        <div class="p-3 flex items-center justify-between">
+            <span class="text-sm text-gray-300">{{ item.snapshot.timestamp.strftime('%Y-%m-%d %H:%M:%S UTC') }}</span>
+            {% if item.stale %}
+            <span class="text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full">Stale</span>
+            {% else %}
+            <span class="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full">Fresh</span>
+            {% endif %}
+        </div>
+    </a>
     {% endfor %}
 </div>
+{% else %}
+<div class="h-64 flex items-center justify-center text-gray-500 bg-gray-900 rounded-lg">No snapshots available</div>
 {% endif %}
 {% endblock %}

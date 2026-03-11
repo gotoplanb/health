@@ -21,7 +21,7 @@ class Settings(BaseSettings):
 
     # Mock mode
     mock_mode: bool = False
-    mock_data_dir: str = "mock-data"
+    mock_data_dir: str = "example-data"
     mock_auth: bool = False
 
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}

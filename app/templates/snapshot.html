@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}{{ display_name }} — {{ timestamp.strftime('%Y-%m-%d %H:%M') }} — Sumo Dashboards{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="/dashboards/{{ name }}" class="text-sm text-gray-400 hover:text-gray-200">&larr; {{ display_name }}</a>
+    <h1 class="text-xl font-semibold mt-1">{{ display_name }}</h1>
+    <p class="text-sm text-gray-500">{{ timestamp.strftime('%Y-%m-%d %H:%M:%S UTC') }}</p>
+</div>
+
+<img src="{{ url }}" alt="{{ display_name }}" class="w-full rounded-lg shadow">
+{% endblock %}

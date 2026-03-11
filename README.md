@@ -9,7 +9,7 @@ Internal tool that ingests Sumo Logic scheduled report emails, converts PDF atta
 
 ## Quick Start (Local Mock Mode)
 
-Mock mode serves dashboard images from the local filesystem — no AWS required.
+Mock mode serves dashboard images from the local filesystem — no AWS required. Example data is included in the repo so you can see the app immediately.
 
 ```bash
 # 1. Install dependencies
@@ -18,17 +18,26 @@ make install
 # 2. Set up environment
 make env
 
-# 3. Add mock dashboard PNGs (see Mock Data below)
-
-# 4. Start the dev server
+# 3. Start the dev server
 make dev
 ```
 
-The app runs at http://localhost:8000 with mock auth enabled by default.
+The app runs at http://localhost:8000 with mock auth enabled by default. You'll see 4 example dashboards (Platform Overview, API Gateway, Payment Service, User Service) with 3 snapshots each.
 
-## Mock Data
+## Example Data
 
-Place PNG files in `mock-data/` following this structure:
+The `example-data/` directory contains generated Sumo-style dashboard PNGs that ship with the repo. This is the default data source in mock mode.
+
+To regenerate or customize the example dashboards:
+
+```bash
+pip install matplotlib numpy
+python scripts/generate_example_data.py
+```
+
+## Custom Mock Data
+
+To work with your own dashboard images, place PNGs in `mock-data/` and set `MOCK_DATA_DIR=mock-data` in `.env`:
 
 ```
 mock-data/
@@ -43,6 +52,7 @@ mock-data/
 - Directory names are dashboard slugs (lowercase, hyphenated)
 - Filenames are timestamps in `YYYY-MM-DDTHH-MM-SSZ` format
 - To generate PNGs from Sumo PDF exports: `pdftoppm -r 300 -png dashboard.pdf output`
+- `mock-data/` is gitignored — your real dashboard data stays local
 
 ## Makefile Targets
 
